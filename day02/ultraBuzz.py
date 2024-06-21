@@ -34,18 +34,17 @@ try:
 	while True:
 		distance = measure()
 		print("Distance: %.2f cm" %distance)
-		if(distance < 10):
-			Buzz.start(50)
-			Buzz.ChangeFrequency(130)
-			time.sleep(0.2)
-			Buzz.ChangeFrequency(147)
-			time.sleep(0.2)
-			Buzz.ChangeFrequency(165)
-			time.sleep(0.2)
+		Buzz.start(30)
+		if(distance < 15):
+			#Buzz.start(30)
+			Buzz.ChangeFrequency(300)
+			time.sleep(1)
+			Buzz.ChangeFrequency(10)
+			#time.sleep(1)
 		else:
 			Buzz.stop()
+		time.sleep(0.1)
 
-		time.sleep(0.2)
 
 except KeyboardInterrupt:
 	Buzz.stop()
