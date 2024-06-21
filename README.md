@@ -19,4 +19,10 @@
 - 시간지연 함수
     - time.sleep(sec)
 
-- Vcc 쪽에 저항 있으면 풀업
+- button
+    - 풀업 버튼
+        ![]()
+    - 풀다운 버튼
+
+- buzzor
+    - Buzz = GPIO.PWM(piezoPin, 440) -> 아날로그 출력을 위한 객체생성(440Hz 출력)  
