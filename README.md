@@ -57,9 +57,11 @@
 	time.sleep(0.00001)
 	GPIO.output(trigPin, False)
 	start = time.time()
+    # 위 코드가 초음파를 10us동안 뾱 보낸거임
+     
 ```
-    - 위 코드가 초음파를 10us동안 뾱 보낸거임
 ``` python
     GPIO.input(echoPin) == True
+    #보낸 초음파가 echoPin으로 들어오면 True가 되고, 초음파가 갔다온 시간을 계산해서 반환하는 함수를 만들어서, 그 값으로 무언가를 제어
 ```
-    - 보낸 초음파가 echoPin으로 들어오면 True가 되고, 초음파가 갔다온 시간을 계산해서 반환하는 함수를 만들어서, 그 값으로 무언가를 제어
+    
