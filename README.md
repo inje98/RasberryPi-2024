@@ -39,4 +39,27 @@
     - Buzz = GPIO.PWM(piezoPin, 440) -> 아날로그 출력을 위한 객체생성(440Hz 출력)
 
 ## 2일차
-- 동작감지센서
+- 가상환경
+    1. python -m venv env --> env 가상환경을 생성
+    2. source ./env/bin/activate  --> env 가상환경에 입장
+    3. deactivate --> 가상환경 나오기
+
+- 라즈베리파이 현재 상태보기
+    1. sudo git clone https://gitbub.com/WiringPi/WiringPi  --> WiringPi 생성
+    2. cd WiringPi 들어가서
+    3. sudo ./build --> 뭐가 쭉 깔림
+    4. gpio readall --> 현재 라즈베리파이 상황을 볼 수 있다. 어디에 현재 전압이 걸려있고 그런것들
+
+- 동작감지 센서
+- 초음파 센서
+``` python
+    GPIO.output(trigPin, True)
+	time.sleep(0.00001)
+	GPIO.output(trigPin, False)
+	start = time.time()
+```
+    - 위 코드가 초음파를 10us동안 뾱 보낸거임
+``` python
+    GPIO.input(echoPin) == True
+```
+    - 보낸 초음파가 echoPin으로 들어오면 True가 되고, 초음파가 갔다온 시간을 계산해서 반환하는 함수를 만들어서, 그 값으로 무언가를 제어
