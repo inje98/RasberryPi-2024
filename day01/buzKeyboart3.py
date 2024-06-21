@@ -30,7 +30,7 @@ try:
         elif getKey == 8:
             Buzz.ChangeFrequency(262)
         
-        Buzz.ChangeDutyCycle(10)  # 듀티 사이클을 낮춰서 소리를 작게 설정 (예: 10%)
+        Buzz.ChangeDutyCycle(5)  # 듀티 사이클을 낮춰서 소리를 작게 설정 (예: 10%)
         time.sleep(0.1)  # 소리가 약 0.1초 동안 지속되게 대기
         Buzz.ChangeDutyCycle(0)  # 듀티 사이클을 0%로 설정하여 소리 멈춤
         time.sleep(0.1)  # 다음 입력을 위해 약간의 딜레이를 추가
