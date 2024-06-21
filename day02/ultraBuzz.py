@@ -38,9 +38,19 @@ try:
 		if(distance < 15):
 			#Buzz.start(30)
 			Buzz.ChangeFrequency(300)
-			time.sleep(1)
+			time.sleep(0.1)
 			Buzz.ChangeFrequency(10)
-			#time.sleep(1)
+			time.sleep(0.1)
+		elif(distance < 10):
+			Buzz.ChangeFrequency(300)
+			time.sleep(0.1)
+			Buzz.ChangeFrequency(10)
+			time.sleep(0.1)
+		elif(distance < 5):
+			Buzz.ChangeFrequency(300)
+			time.sleep(0.1)
+			Buzz.ChangeFrequency(10)
+			time.sleep(0.1)
 		else:
 			Buzz.stop()
 		time.sleep(0.1)
