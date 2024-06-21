@@ -21,8 +21,9 @@
 
 - button
     - 풀업 버튼
-        ![]()
+        ![PullUp](https://raw.githubusercontent.com/inje98/RasberryPi-2024/main/image/PullUp.png)
     - 풀다운 버튼
+        ![PullDown](https://raw.githubusercontent.com/inje98/RasberryPi-2024/main/image/PullDown.png)
 
 - buzzor
     - Buzz = GPIO.PWM(piezoPin, 440) -> 아날로그 출력을 위한 객체생성(440Hz 출력)  
