@@ -65,4 +65,15 @@
     GPIO.input(echoPin) == True
     #보낸 초음파가 echoPin으로 들어오면 True가 되고, 초음파가 갔다온 시간을 계산해서 반환하는 함수를 만들어서, 그 값으로 무언가를 제어
 ```
-    
+
+## 3일차
+- 릴레이
+    - 릴레이는 안에 있는 코일 -> 코일에 전류가 흐르면 자기장 발생 -> 자기장으로 인해 전자석이 됨 -> 이 전자석으로 인해 회로를 끊었다 붙였다하며 스위치 역할을 함
+![relay](https://raw.githubusercontent.com/inje98/RasberryPi-2024/main/image/relay.jpg)
+- 오른편 제어할 회로를 구성
+    - NO : Normal Open -> 평상시 오픈, 릴레이 동작시 연결
+    - NC : Normal Close -> 평상시 연결, 릴레이 동작시 오픈
+    - COM : 전원선 연결
+- 왼편 라즈베리파이/아두이노 회로 구성
+    - 늘 그렇듯 시그널 핀, 5V, GND 연결
+    - 이쪽편에서 5v를 줬다 뺐다 하면서 LED를 제어하는것
