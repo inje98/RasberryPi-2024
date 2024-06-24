@@ -41,6 +41,7 @@
 ## 2일차
 - 가상환경
     1. python -m venv env --> env 가상환경을 생성
+    1-1.  python -m venv --system-site-packages env --> 모든 pip 깔린채로 가상환경 쓰는거인듯
     2. source ./env/bin/activate  --> env 가상환경에 입장
     3. deactivate --> 가상환경 나오기
 
