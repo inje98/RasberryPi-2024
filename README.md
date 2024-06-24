@@ -109,7 +109,7 @@
 ```
     - 다음과 같이 계속해서 한쪽 방향으로 모터를 돌릴 수 있다.
 
-- 라즈베리파이 서버
+- 라즈베리파이 서버(flask)
     ```python
         from flask import Flask
 
@@ -122,4 +122,40 @@
         if __name__ == "__main__":
 	        app.run(host="0.0.0.0", port="10110", debug=True) 
     ```
-    - 
+    - 기본적인 웹 코드
+    - 웹에 라즈베리파이 ip와 포트번호를 쳐서 들어간다
+
+    ```python
+        @app.route("/led/on")
+        def on():
+	        GPIO.output(ledR, False)
+	        return "<h1>led on</h1>"
+
+        @app.route("/led/off")
+        def off():
+	        GPIO.output(ledR, True)
+	        return "<h1>led off</h1>"
+    ```
+    - 이런식으로 웹을 통해서 LED 켜고끄고 제어가 가능하다.
+    - 실제 버튼을 누르면 웹에 어떤 이벤트가 발생한다던지, 웹을 통해서 다양한 부품들을 동작 시키는 등 다양하게 서버를 활용해서 많은것을 해볼 수 있을 것 같다.
+
+    ``` python
+        from flask import Flask, request
+
+        app = Flask(__name__)
+
+        @app.route("/")
+        def get():
+            value1 = request.args.get("이름", "user")
+            value2 = request.args.get("주소", "부산")
+            return value1 + ":" + value2
+
+        if __name__ == "__main__":
+	        app.run(host="0.0.0.0", port="10011", debug=True)
+    ```
+- request.args에 있는 get함수를 이용해서 키(이름) 값(user) 형태로 입력 받을 수 있다
+- 192.168.5.3:10011/ 이렇게 들어가면 user:부산 이 화면에 뜬다. user, 부산을 디폴트로 넣어놨으니까
+- 키에 값을 넣는 방법
+    - 192.168.5.3:10011/?이름=김인제&주소=대구
+    - 이런식으로 넣는다.
+    - 만약 192.168.5.3:10011/?이름=김인제 까지 적으면 주소는 디폴트로 설정한 부산이 나온다.
