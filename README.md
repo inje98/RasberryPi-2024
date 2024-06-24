@@ -77,3 +77,49 @@
 - 왼편 라즈베리파이/아두이노 회로 구성
     - 늘 그렇듯 시그널 핀, 5V, GND 연결
     - 이쪽편에서 5v를 줬다 뺐다 하면서 LED를 제어하는것
+
+- 스탭모터
+    - 스탭모터는 360도 회전이 되고 32개의 톱니바퀴가 4개의 전자석을 통해 한번에 한단계씩 회전시키는 방식으로 작동한다
+![Motor](https://raw.githubusercontent.com/inje98/RasberryPi-2024/main/image/Motor.png)
+
+- 입력핀 4개가 각각 하나의 전자석에 신호 줌으로써 모터를 제어한다.
+``` python
+        GPIO.output(steps[0], 0)
+        GPIO.output(steps[1], 0)
+        GPIO.output(steps[2], 0)
+        GPIO.output(steps[3], 1)
+        time.sleep(0.01)
+
+        GPIO.output(steps[0], 0)
+        GPIO.output(steps[1], 0)
+        GPIO.output(steps[2], 1)
+        GPIO.output(steps[3], 0)
+        time.sleep(0.01)
+
+        GPIO.output(steps[0], 0)
+        GPIO.output(steps[1], 1)
+        GPIO.output(steps[2], 0)
+        GPIO.output(steps[3], 0)
+        time.sleep(0.01)
+
+        GPIO.output(steps[0], 1)
+        GPIO.output(steps[1], 0)
+        GPIO.output(steps[2], 0)
+        GPIO.output(steps[3], 0)
+```
+    - 다음과 같이 계속해서 한쪽 방향으로 모터를 돌릴 수 있다.
+
+- 라즈베리파이 서버
+    ```python
+        from flask import Flask
+
+        app = Flask(__name__) 
+
+        @app.route("/")
+        def hello():
+	        return "Hello World!"
+
+        if __name__ == "__main__":
+	        app.run(host="0.0.0.0", port="10110", debug=True) 
+    ```
+    - 
