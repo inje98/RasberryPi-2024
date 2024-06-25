@@ -159,3 +159,17 @@
     - 192.168.5.3:10011/?이름=김인제&주소=대구
     - 이런식으로 넣는다.
     - 만약 192.168.5.3:10011/?이름=김인제 까지 적으면 주소는 디폴트로 설정한 부산이 나온다.
+
+## 4일차
+- html을 작성하고 그 화면에서 led제어하기
+    - flask 모듈안의 render_template()함수를 이용해 만들어둔 html파일의 내용을 불러와 리턴 시키도록 만든다.
+    - 버튼을 누르면 data변수에 on이나 off가 들어가도록 하고 둘을 if문으로 구별시켜서 led제어
+
+- 카메라
+    - 카메라 사용법
+    - 버튼을 누르면 카메라 동작
+
+- 7세그먼트
+    ![7seg](https://raw.githubusercontent.com/inje98/RasberryPi-2024/main/image/7segment%EA%B5%AC%EC%A1%B0.png)
+
+    - com1, com2, com3, com4 각각 
