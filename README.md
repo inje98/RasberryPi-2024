@@ -172,4 +172,12 @@
 - 7세그먼트
     ![7seg](https://raw.githubusercontent.com/inje98/RasberryPi-2024/main/image/7segment%EA%B5%AC%EC%A1%B0.png)
 
-    - com1, com2, com3, com4 각각 
+    - com1, com2, com3, com4 각각 첫번째, 두번째, 세번째, 네번째 칸을 담당
+    - 위에 보이는 a~g까지의 핀과 com핀에 전압을 걸어서 번호를 표현하면서 제어 할 수 있다.
+
+    ![7segment](https://raw.githubusercontent.com/inje98/RasberryPi-2024/main/image/7%EC%84%B8%EA%B7%B8%EA%B5%AC%EC%A1%B0.png)
+
+## 5일차
+
+- 7세그먼트
+    - 
