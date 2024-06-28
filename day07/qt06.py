@@ -10,16 +10,16 @@ pin = (21, 20, 16, 26, 19, 12, 13)
 digits = (23, 24, 25, 4)
 
 number_list = {
-    '0': (1, 1, 1, 1, 1, 1, 0),  # 0
-    '1': (0, 1, 1, 0, 0, 0, 0),  # 1
-    '2': (1, 1, 0, 1, 1, 0, 1),  # 2
-    '3': (1, 1, 1, 1, 0, 0, 1),  # 3
-    '4': (0, 1, 1, 0, 0, 1, 1),  # 4
-    '5': (1, 0, 1, 1, 0, 1, 1),  # 5
-    '6': (1, 0, 1, 1, 1, 1, 1),  # 6
-    '7': (1, 1, 1, 0, 0, 0, 0),  # 7
-    '8': (1, 1, 1, 1, 1, 1, 1),  # 8
-    '9': (1, 1, 1, 1, 0, 1, 1)   # 9
+    '0': (1, 1, 1, 1, 1, 1, 0),
+    '1': (0, 1, 1, 0, 0, 0, 0),
+    '2': (1, 1, 0, 1, 1, 0, 1),
+    '3': (1, 1, 1, 1, 0, 0, 1),
+    '4': (0, 1, 1, 0, 0, 1, 1),
+    '5': (1, 0, 1, 1, 0, 1, 1),
+    '6': (1, 0, 1, 1, 1, 1, 1),
+    '7': (1, 1, 1, 0, 0, 0, 0),
+    '8': (1, 1, 1, 1, 1, 1, 1),
+    '9': (1, 1, 1, 1, 0, 1, 1)
 }
 
 trigPin = 18
@@ -174,12 +174,22 @@ class WindowClass(QMainWindow, form_class):
         time.sleep(0.001)
         GPIO.output(digits[3], 1)
 
+        if self.index4 == 10:
+            self.index3 += 1
+            self.index4 = 0
+        if self.index3 == 10:
+            self.index2 += 1
+            self.index3 = 0
+        if self.index2 == 10:
+            self.index1 += 1
+            self.index2 = 0
+        if self.index1 == 10:
+            self.index1 = 0
+
     def Plus1(self):
         self.index4 += 1
         self.count += 1
         self.lcdNumber.display(self.count)
-
-# --------------- LED --------------------
 
     def LEDStart(self):
         self.btnOn.setEnabled(True)
