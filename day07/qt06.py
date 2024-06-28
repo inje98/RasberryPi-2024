@@ -97,6 +97,7 @@ class WindowClass(QMainWindow, form_class):
         
 
         self.timer = QTimer()
+        self.timerCount = QTimer()
 
         # self.radioRed.toggled.connect(self.radioClick)
         # self.radioBlue.toggled.connect(self.radioClick)
@@ -157,6 +158,7 @@ class WindowClass(QMainWindow, form_class):
 
 # -------------- 카운트 -------------------
     def CountStart(self):
+        count = 0
         #print("Count Button Clicked")
         GPIO.output(ledR, True)
         GPIO.output(ledB, True)
@@ -167,8 +169,14 @@ class WindowClass(QMainWindow, form_class):
         self.btnPlus.setEnabled(True)
 
         self.timer.stop()
-        self.lcdNumber.display(0)
+        self.lcdNumber.display(count)
 
+        self.timerCount.timeout.connect(self.FNDShow)
+        self.timerCount.start(1)
+
+        
+
+    def FNDShow():
         displayNum(str(index1))
         GPIO.output(digits[0],0)
         time.sleep(0.001)
@@ -189,7 +197,6 @@ class WindowClass(QMainWindow, form_class):
         time.sleep(0.001)
         GPIO.output(digits[3],1)
 
-    count = 0
     def Plus1(self):
         index4 += 1
         count += 1
