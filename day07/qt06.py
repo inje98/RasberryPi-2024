@@ -22,11 +22,6 @@ number_list = {
     '9': (1, 1, 1, 1, 0, 1, 1)   # 9
 }
 
-index1 = 0
-index2 = 0
-index3 = 0
-index4 = 0
-
 trigPin = 18
 echoPin = 17
 ledR = 5
@@ -39,7 +34,6 @@ GPIO.setup(ledR, GPIO.OUT)
 GPIO.setup(ledB, GPIO.OUT)
 GPIO.setup(ledG, GPIO.OUT)
 
-
 for a in pin:
     GPIO.setup(a, GPIO.OUT)
     GPIO.output(a, GPIO.LOW)
@@ -48,13 +42,7 @@ for b in digits:
     GPIO.setup(b, GPIO.OUT)
     GPIO.output(b, GPIO.HIGH)
 
-index1 = 0 # 첫째자리
-index2 = 0 # 둘째자리
-index3 = 0 # 셋째자리
-index4 = 0 # 넷째자리
-
-
-def measure(): # 초음파 쏴서 거리 반환하는 함수
+def measure():
     GPIO.output(trigPin, True)
     time.sleep(0.00001)
     GPIO.output(trigPin, False)
@@ -78,13 +66,18 @@ def displayNum(index):
     for i in range(7):
         GPIO.output(pin[i], number_list[index][i])
 
-
 form_class = uic.loadUiType("./project01.ui")[0]
 
 class WindowClass(QMainWindow, form_class):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
+        
+        self.index1 = 0
+        self.index2 = 0
+        self.index3 = 0
+        self.index4 = 0
+        self.count = 0
 
         self.btnUltra.clicked.connect(self.UltraStart)
         self.btnCount.clicked.connect(self.CountStart)
@@ -94,21 +87,13 @@ class WindowClass(QMainWindow, form_class):
         self.btnCleanup.clicked.connect(self.Clean)
         self.btnPlus.clicked.connect(self.Plus1)
 
-        
-
         self.timer = QTimer()
         self.timerCount = QTimer()
 
-        # self.radioRed.toggled.connect(self.radioClick)
-        # self.radioBlue.toggled.connect(self.radioClick)
-        # self.radioGreen.toggled.connect(self.radioClick)
-    
-
-    def Clean(self): # 뭔가 팅기듯이 나가짐
+    def Clean(self):
         GPIO.cleanup()
 
-# -------------- 초음파 -------------------
-    def UltraStart(self): # 3초마다 updataDistance 호출하는 함수
+    def UltraStart(self):
         GPIO.output(ledR, True)
         GPIO.output(ledB, True)
         GPIO.output(ledG, True)
@@ -117,49 +102,43 @@ class WindowClass(QMainWindow, form_class):
         self.btnOff.setEnabled(False)
         self.btnPlus.setEnabled(False)
 
-        
         self.timer.timeout.connect(self.updateDistance)
-        self.timer.start(3000)   # 3초마다 updateDistance함수 호출
-                                 # 이거 짧게하니까 렉 너무 걸린다
-        
-        
+        self.timer.start(3000)
 
-    def updateDistance(self): # 숫자 화면에 띄우고  FND에 띄우고
+    def updateDistance(self):
         distance = measure()
         self.lcdNumber.display(int(distance))
         DistanceAry = split_num(int(distance))
 
-        index1 = DistanceAry[0]
-        index2 = DistanceAry[1]
-        index3 = DistanceAry[2]
-        index4 = DistanceAry[3]
+        self.index1 = DistanceAry[0]
+        self.index2 = DistanceAry[1]
+        self.index3 = DistanceAry[2]
+        self.index4 = DistanceAry[3]
 
         for _ in range(50):  
-            displayNum(str(index1))
+            displayNum(str(self.index1))
             GPIO.output(digits[0], 0)
             time.sleep(0.005)
             GPIO.output(digits[0], 1)
 
-            displayNum(str(index2))
+            displayNum(str(self.index2))
             GPIO.output(digits[1], 0)
             time.sleep(0.005)
             GPIO.output(digits[1], 1)
 
-            displayNum(str(index3))
+            displayNum(str(self.index3))
             GPIO.output(digits[2], 0)
             time.sleep(0.005)
             GPIO.output(digits[2], 1)
 
-            displayNum(str(index4))
+            displayNum(str(self.index4))
             GPIO.output(digits[3], 0)
             time.sleep(0.005)
             GPIO.output(digits[3], 1)
-# -------------- 초음파 -------------------
 
-# -------------- 카운트 -------------------
     def CountStart(self):
-        count = 0
-        #print("Count Button Clicked")
+        self.count = 0
+
         GPIO.output(ledR, True)
         GPIO.output(ledB, True)
         GPIO.output(ledG, True)
@@ -169,62 +148,46 @@ class WindowClass(QMainWindow, form_class):
         self.btnPlus.setEnabled(True)
 
         self.timer.stop()
-        self.lcdNumber.display(count)
+        self.lcdNumber.display(self.count)
 
         self.timerCount.timeout.connect(self.FNDShow)
         self.timerCount.start(1)
 
-        
-
-    def FNDShow():
-        displayNum(str(index1))
-        GPIO.output(digits[0],0)
+    def FNDShow(self):
+        displayNum(str(self.index1))
+        GPIO.output(digits[0], 0)
         time.sleep(0.001)
-        GPIO.output(digits[0],1)
+        GPIO.output(digits[0], 1)
 
-        displayNum(str(index2))
-        GPIO.output(digits[1],0)
+        displayNum(str(self.index2))
+        GPIO.output(digits[1], 0)
         time.sleep(0.001)
-        GPIO.output(digits[1],1)
+        GPIO.output(digits[1], 1)
 
-        displayNum(str(index3))
-        GPIO.output(digits[2],0)
+        displayNum(str(self.index3))
+        GPIO.output(digits[2], 0)
         time.sleep(0.001)
-        GPIO.output(digits[2],1)
+        GPIO.output(digits[2], 1)
 
-        displayNum(str(index4))
-        GPIO.output(digits[3],0)
+        displayNum(str(self.index4))
+        GPIO.output(digits[3], 0)
         time.sleep(0.001)
-        GPIO.output(digits[3],1)
+        GPIO.output(digits[3], 1)
 
     def Plus1(self):
-        index4 += 1
-        count += 1
-        self.lcdNumber.display(count)
-
-# -------------- 카운트 -------------------- 
-
+        self.index4 += 1
+        self.count += 1
+        self.lcdNumber.display(self.count)
 
 # --------------- LED --------------------
-    # def radioClick(self):
-    #     if self.radioRed.isChecked():
-    #         print("Radio Button 1 selected")
-    #     elif self.radioBlue.isChecked():
-    #         print("Radio Button 2 selected")
-    #     elif self.radioGreen.isChecked():
-    #         print("Radio Button 3 selected")
-
 
     def LEDStart(self):
-        #print("LED ON Button Clicked")
         self.btnOn.setEnabled(True)
         self.btnOff.setEnabled(True)
         self.btnPlus.setEnabled(False)
 
         self.timer.stop()
         self.lcdNumber.display(0)
-
-        
 
     def LED_On(self):
         if self.radioRed.isChecked():
@@ -244,8 +207,6 @@ class WindowClass(QMainWindow, form_class):
          GPIO.output(5, True)
          GPIO.output(6, True)
          GPIO.output(27, True)
-
-# --------------- LED --------------------
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
