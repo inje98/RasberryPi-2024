@@ -22,12 +22,14 @@ number_list = {
     '9': (1, 1, 1, 1, 0, 1, 1)
 }
 
+Mag = 22
 trigPin = 18
 echoPin = 17
 ledR = 5
 ledB = 6
 ledG = 27
 
+GPIO.setup(Mag, GPIO.IN)
 GPIO.setup(trigPin, GPIO.OUT)
 GPIO.setup(echoPin, GPIO.IN)
 GPIO.setup(ledR, GPIO.OUT)
@@ -86,12 +88,36 @@ class WindowClass(QMainWindow, form_class):
         self.btnOff.clicked.connect(self.LED_Off)
         self.btnCleanup.clicked.connect(self.Clean)
         self.btnPlus.clicked.connect(self.Plus1)
+        self.btnMag.clicked.connect(self.MagStart)
+        self.btnMagOff.clicked.connect(self.MagClose)
+
+
 
         self.timer = QTimer()
         self.timerCount = QTimer()
+        self.timerMag = QTimer()
+
+
+    def Mag(self):
+        if (GPIO.input(Mag) == True):
+            self.MagLabel.setText("떨어졌다")
+        elif (GPIO.input(Mag) == False):
+            self.MagLabel.setText("붙었다")
+
 
     def Clean(self):
         GPIO.cleanup()
+
+    def MagStart(self):
+        #self.btnMagOff.setEnabled(True)
+        self.MagLabel.show()
+        self.timerMag.timeout.connect(self.Mag)
+        self.timerMag.start(1000)
+    
+    def MagClose(self):
+        #self.btnMagOff.setEnabled(False)
+        self.timerMag.stop()
+        self.MagLabel.hide()
 
     def UltraStart(self):
         self.label.show()

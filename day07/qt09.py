@@ -22,12 +22,14 @@ number_list = {
     '9': (1, 1, 1, 1, 0, 1, 1)
 }
 
+Mag = 22
 trigPin = 18
 echoPin = 17
 ledR = 5
 ledB = 6
 ledG = 27
 
+GPIO.setup(Mag, GPIO.IN)
 GPIO.setup(trigPin, GPIO.OUT)
 GPIO.setup(echoPin, GPIO.IN)
 GPIO.setup(ledR, GPIO.OUT)
@@ -86,16 +88,36 @@ class WindowClass(QMainWindow, form_class):
         self.btnOff.clicked.connect(self.LED_Off)
         self.btnCleanup.clicked.connect(self.Clean)
         self.btnPlus.clicked.connect(self.Plus1)
+        self.btnMag.clicked.connect(self.MagStart)
+
 
         self.timer = QTimer()
         self.timerCount = QTimer()
+        self.timerMag = QTimer()
+
+
+    def Mag(self):
+        if (GPIO.input(Mag) == True):
+            self.MagLabel.setText("떨어졌다")
+        elif (GPIO.input(Mag) == False):
+            self.MagLabel.setText("붙었다")
+
 
     def Clean(self):
         GPIO.cleanup()
 
+    def MagStart(self):
+        self.timerMag.timeout.connect(self.Mag)
+        self.timerMag.start(1000)
+
     def UltraStart(self):
         self.label.show()
         self.label.setText("cm")
+
+        self.label_1.hide()
+        self.label_2.hide()
+        self.label_3.hide()
+
 
         GPIO.output(ledR, True)
         GPIO.output(ledB, True)
@@ -146,6 +168,10 @@ class WindowClass(QMainWindow, form_class):
         self.index2 = 0
         self.index1 = 0
         self.lcdNumber.display(0)
+
+        self.label_1.hide()
+        self.label_2.hide()
+        self.label_3.hide()
 
         self.label.show()
         self.label.setText("회")
@@ -214,6 +240,9 @@ class WindowClass(QMainWindow, form_class):
         self.btnOff.setEnabled(True)
         self.btnPlus.setEnabled(False)
 
+        self.label_1.show()
+        self.label_2.show()
+        self.label_3.show()
         self.label.hide()
 
         self.timer.stop()
@@ -231,6 +260,8 @@ class WindowClass(QMainWindow, form_class):
             GPIO.output(5, False)
             GPIO.output(6, True)
             GPIO.output(27, True)
+ 
+
         elif self.radioBlue.isChecked():
             GPIO.output(5, True)
             GPIO.output(6, False)
