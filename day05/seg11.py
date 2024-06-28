@@ -68,7 +68,7 @@ try:
         index3 = DistanceAry[2]
         index4 = DistanceAry[3]
 
-        for _ in range(100):  
+        for _ in range(200):  
             displayNum(str(index1))
             GPIO.output(digits[0], 0)
             time.sleep(0.005)
