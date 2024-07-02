@@ -43,8 +43,10 @@ for a in pin:
 for b in digits:
     GPIO.setup(b, GPIO.OUT)
     GPIO.output(b, GPIO.HIGH)
+# 여기까지가 핀 번호 설정, 셋팅
 
-def measure():
+
+def measure(): # 초음파 측정 함수, 거리를 cm로 계산해서 반환
     GPIO.output(trigPin, True)
     time.sleep(0.00001)
     GPIO.output(trigPin, False)
@@ -57,12 +59,14 @@ def measure():
         stop = time.time()
     
     elapsed = stop - start
-    distance = (elapsed * 34300) / 2
+    distance = (elapsed * 19000) / 2
     return distance
 
 def split_num(number):
     num = [int(i) for i in str(number).zfill(4)]
     return num
+# 인자로 number를 받아서 4자리로 쪼개서 리스트로 반환
+# index1,2,3,4 에다가 각각 넣어줄거
 
 def displayNum(index):
     for i in range(7):
@@ -86,11 +90,13 @@ class WindowClass(QMainWindow, form_class):
         self.btnLED.clicked.connect(self.LEDStart)
         self.btnOn.clicked.connect(self.LED_On)
         self.btnOff.clicked.connect(self.LED_Off)
-        self.btnCleanup.clicked.connect(self.Clean)
         self.btnPlus.clicked.connect(self.Plus1)
         self.btnMag.clicked.connect(self.MagStart)
+        self.btnMagOff.clicked.connect(self.MagClose)
 
-
+	# QTimer 객체 생성
+	# 시간을 재서 몇초마다 어떤 함수를 호출하겠다
+	# while 대신에 이렇게 쓸거임
         self.timer = QTimer()
         self.timerCount = QTimer()
         self.timerMag = QTimer()
@@ -103,21 +109,20 @@ class WindowClass(QMainWindow, form_class):
             self.MagLabel.setText("붙었다")
 
 
-    def Clean(self):
-        GPIO.cleanup()
-
-    def MagStart(self):
-        self.timerMag.timeout.connect(self.Mag)
+    def MagStart(self): # 마그네틱 시작 버튼
+        #self.btnMagOff.setEnabled(True)
+        self.MagLabel.show()
+        self.timerMag.timeout.connect(self.Mag) # 1초마다(1000) Mag함수 호출
         self.timerMag.start(1000)
+    
+    def MagClose(self): # 마그네틱 off버튼
+        #self.btnMagOff.setEnabled(False)
+        self.timerMag.stop()
+        self.MagLabel.hide()
 
-    def UltraStart(self):
+    def UltraStart(self): # 초음파 시작 버튼
         self.label.show()
         self.label.setText("cm")
-
-        self.label_1.hide()
-        self.label_2.hide()
-        self.label_3.hide()
-
 
         GPIO.output(ledR, True)
         GPIO.output(ledB, True)
@@ -130,7 +135,7 @@ class WindowClass(QMainWindow, form_class):
         self.timer.timeout.connect(self.updateDistance)
         self.timer.start(3000)
 
-    def updateDistance(self):
+    def updateDistance(self): # 3초마다 이 함수 호출
         distance = measure()
         self.lcdNumber.display(int(distance))
         DistanceAry = split_num(int(distance))
@@ -161,17 +166,13 @@ class WindowClass(QMainWindow, form_class):
             time.sleep(0.005)
             GPIO.output(digits[3], 1)
 
-    def CountStart(self):
+    def CountStart(self): # 카운트 시작 버튼
         self.count = 0
         self.index4 = 0
         self.index3 = 0
         self.index2 = 0
         self.index1 = 0
         self.lcdNumber.display(0)
-
-        self.label_1.hide()
-        self.label_2.hide()
-        self.label_3.hide()
 
         self.label.show()
         self.label.setText("회")
@@ -194,7 +195,7 @@ class WindowClass(QMainWindow, form_class):
         #self.timerCount.stop()
 
 
-    def FNDShow(self):
+    def FNDShow(self): # index1,2,3,4 각각 다 숫자모양 만들고, com1,2,3,4 0v 줬다뺐다 반복
         displayNum(str(self.index1))
         GPIO.output(digits[0], 0)
         time.sleep(0.001)
@@ -235,14 +236,11 @@ class WindowClass(QMainWindow, form_class):
 
         self.lcdNumber.display(self.count)
 
-    def LEDStart(self):
+    def LEDStart(self): #LED 시작 버튼
         self.btnOn.setEnabled(True)
         self.btnOff.setEnabled(True)
         self.btnPlus.setEnabled(False)
 
-        self.label_1.show()
-        self.label_2.show()
-        self.label_3.show()
         self.label.hide()
 
         self.timer.stop()
@@ -260,8 +258,6 @@ class WindowClass(QMainWindow, form_class):
             GPIO.output(5, False)
             GPIO.output(6, True)
             GPIO.output(27, True)
- 
-
         elif self.radioBlue.isChecked():
             GPIO.output(5, True)
             GPIO.output(6, False)

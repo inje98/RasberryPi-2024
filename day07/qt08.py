@@ -57,7 +57,7 @@ def measure():
         stop = time.time()
     
     elapsed = stop - start
-    distance = (elapsed * 34300) / 2
+    distance = (elapsed * 19000) / 2
     return distance
 
 def split_num(number):
@@ -86,7 +86,6 @@ class WindowClass(QMainWindow, form_class):
         self.btnLED.clicked.connect(self.LEDStart)
         self.btnOn.clicked.connect(self.LED_On)
         self.btnOff.clicked.connect(self.LED_Off)
-        self.btnCleanup.clicked.connect(self.Clean)
         self.btnPlus.clicked.connect(self.Plus1)
         self.btnMag.clicked.connect(self.MagStart)
         self.btnMagOff.clicked.connect(self.MagClose)
@@ -104,9 +103,6 @@ class WindowClass(QMainWindow, form_class):
         elif (GPIO.input(Mag) == False):
             self.MagLabel.setText("붙었다")
 
-
-    def Clean(self):
-        GPIO.cleanup()
 
     def MagStart(self):
         #self.btnMagOff.setEnabled(True)

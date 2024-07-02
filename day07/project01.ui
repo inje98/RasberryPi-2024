@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>434</width>
-    <height>453</height>
+    <height>366</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -125,19 +125,6 @@
     </property>
     <property name="text">
      <string>OFF</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="btnCleanup">
-    <property name="geometry">
-     <rect>
-      <x>170</x>
-      <y>360</y>
-      <width>99</width>
-      <height>30</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>CleanUp</string>
     </property>
    </widget>
    <widget class="QRadioButton" name="radioRed">
